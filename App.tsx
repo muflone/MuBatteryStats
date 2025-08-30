@@ -48,6 +48,13 @@ function AppContent() {
     }
   }
 
+  const clearItems = async() => {
+    // Clear existing items and save the empty list to storage
+    const updatedItems: BatteryStatsInfo[] = [];
+    setItems(updatedItems);
+    await saveItems(updatedItems);
+  }
+
   const readFileContent = async (filename: string | undefined) => {
     await getBatteryStats(filename)
       .then(batteryInfo => {
@@ -70,6 +77,8 @@ function AppContent() {
 
   return (
     <View style={styles.container}>
+      <Button title="Clear Statistics"
+              onPress={clearItems}/>
       <Button title="Get Battery Statistics (default)"
               onPress={readFileContentDefault} />
       <Button title="Get Battery Statistics (test)"
