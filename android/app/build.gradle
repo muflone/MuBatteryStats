@@ -77,13 +77,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.mubatterystats"
+    namespace "com.muflone.mubatterystats"
     defaultConfig {
-        applicationId "com.mubatterystats"
+        applicationId "com.muflone.mubatterystats"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 200
+        versionName "0.2.0"
     }
     signingConfigs {
         debug {

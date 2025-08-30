@@ -1,4 +1,4 @@
-package com.mubatterystats
+package com.muflone.mubatterystats
 
 import android.app.Application
 import com.facebook.react.PackageList
