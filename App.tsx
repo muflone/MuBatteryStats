@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import {
+  useEffect,
+  useState
+} from 'react';
 import {
   Button,
   FlatList,
@@ -39,6 +42,19 @@ function App() {
 function AppContent() {
   const [items, setItems] = useState<BatteryStatsInfo[]>([]);
 
+  const loadItems = async() => {
+    // Clear previous items and loads them from storage
+    setItems([]);
+    try {
+      const storedItems = await AsyncStorage.getItem(STORAGE_BATTERY_INFO);
+      if (storedItems) {
+        setItems(JSON.parse(storedItems));
+      }
+    } catch (error) {
+      console.error("Error loading items", error);
+    }
+  }
+
   const saveItems = async(updatedItems: BatteryStatsInfo[]) => {
     // Save the items to storage
     try {
@@ -74,6 +90,13 @@ function AppContent() {
   const readFileContentTest = async () => {
     return await readFileContent('/storage/emulated/0/test-cycle_count');
   }
+
+  useEffect(() => {
+    // Load items on the application start
+    loadItems().catch((error) => {
+      console.error("Failed to load items:", error);
+    });
+  }, [])
 
   return (
     <View style={styles.container}>
