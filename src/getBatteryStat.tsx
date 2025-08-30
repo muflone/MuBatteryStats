@@ -3,14 +3,14 @@ import RNFS from 'react-native-fs';
 
 const ANDROID_BATTERY_CYCLE_COUNT: string = '/sys/class/power_supply/battery/cycle_count';
 
-export interface BatteryStatInfo {
+export interface BatteryStatsInfo {
   timestamp: number;
   cycleCount: number;
 }
 
 export async function getBatteryStat(
     batteryFileName: string = ANDROID_BATTERY_CYCLE_COUNT
-  ): Promise<BatteryStatInfo> {
+  ): Promise<BatteryStatsInfo> {
   // Get battery statistics information
   const hasPermission = await ManageExternalStorage.checkAndGrantPermission();
   if (hasPermission) {

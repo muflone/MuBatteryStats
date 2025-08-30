@@ -13,7 +13,7 @@ import AsyncStorageDevTools from 'react-native-async-storage-devtools';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
-  BatteryStatInfo,
+  BatteryStatsInfo,
   getBatteryStat
 } from './src/getBatteryStat.tsx';
 import {
@@ -34,7 +34,7 @@ function App() {
 }
 
 function AppContent() {
-  const [items, setItems] = useState<BatteryStatInfo[]>([]);
+  const [items, setItems] = useState<BatteryStatsInfo[]>([]);
 
   const readFileContent = async (filename: string | undefined) => {
     await getBatteryStat(filename)
@@ -64,7 +64,7 @@ function AppContent() {
           data={items}
           stickyHeaderIndices={[0]}
           ListHeaderComponent={BatteryInfoHeader}
-          renderItem={({item}: ListRenderItemInfo<BatteryStatInfo>) => (
+          renderItem={({item}: ListRenderItemInfo<BatteryStatsInfo>) => (
               <BatteryInfo key={item.timestamp}
                            timestamp={item.timestamp}
                            cycleCount={item.cycleCount || 0}

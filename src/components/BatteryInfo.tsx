@@ -1,9 +1,9 @@
 import moment from 'moment';
 
 import { StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { BatteryStatInfo } from '../getBatteryStat.tsx';
+import { BatteryStatsInfo } from '../getBatteryStat.tsx';
 
-interface BatteryInfoProps extends BatteryStatInfo {
+interface BatteryInfoProps extends BatteryStatsInfo {
   style?: ViewStyle;
 }
 
