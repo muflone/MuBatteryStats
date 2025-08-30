@@ -14,8 +14,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
   BatteryStatsInfo,
-  getBatteryStat
-} from './src/getBatteryStat.tsx';
+  getBatteryStats
+} from './src/getBatteryStats.tsx';
 import {
   BatteryInfo,
   BatteryInfoHeader
@@ -37,7 +37,7 @@ function AppContent() {
   const [items, setItems] = useState<BatteryStatsInfo[]>([]);
 
   const readFileContent = async (filename: string | undefined) => {
-    await getBatteryStat(filename)
+    await getBatteryStats(filename)
       .then(batteryInfo => {
         setItems([...items, batteryInfo]);
       })

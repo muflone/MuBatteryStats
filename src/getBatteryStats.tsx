@@ -8,7 +8,7 @@ export interface BatteryStatsInfo {
   cycleCount: number;
 }
 
-export async function getBatteryStat(
+export async function getBatteryStats(
     batteryFileName: string = ANDROID_BATTERY_CYCLE_COUNT
   ): Promise<BatteryStatsInfo> {
   // Get battery statistics information
