@@ -1,16 +1,24 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { useState } from 'react';
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+  Button,
+  FlatList,
+  ListRenderItemInfo,
+  StatusBar,
+  StyleSheet,
+  useColorScheme,
+  View,
+} from 'react-native';
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import {
+  BatteryStatInfo,
+  getBatteryStat
+} from './src/getBatteryStat.tsx';
+import {
+  BatteryInfo,
+  BatteryInfoHeader
+} from './src/components/BatteryInfo.tsx';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,13 +32,42 @@ function App() {
 }
 
 function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
+  const [items, setItems] = useState<BatteryStatInfo[]>([]);
+
+  const readFileContent = async (filename: string | undefined) => {
+    await getBatteryStat(filename)
+      .then(batteryInfo => {
+        setItems([...items, batteryInfo]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  const readFileContentDefault = async () => {
+    return await readFileContent(undefined);
+  }
+
+  const readFileContentTest = async () => {
+    return await readFileContent('/storage/emulated/0/test-cycle_count');
+  }
 
   return (
     <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
+      <Button title="Get Battery Statistics (default)"
+              onPress={readFileContentDefault} />
+      <Button title="Get Battery Statistics (test)"
+              onPress={readFileContentTest} />
+      <FlatList
+          data={items}
+          stickyHeaderIndices={[0]}
+          ListHeaderComponent={BatteryInfoHeader}
+          renderItem={({item}: ListRenderItemInfo<BatteryStatInfo>) => (
+              <BatteryInfo key={item.timestamp}
+                           timestamp={item.timestamp}
+                           cycleCount={item.cycleCount || 0}
+              />
+          )}
       />
     </View>
   );
