@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorageDevTools from 'react-native-async-storage-devtools';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -20,6 +21,8 @@ import {
   BatteryInfo,
   BatteryInfoHeader
 } from './src/components/BatteryInfo.tsx';
+
+const STORAGE_BATTERY_INFO: string = "data.battery.statistics";
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -36,10 +39,21 @@ function App() {
 function AppContent() {
   const [items, setItems] = useState<BatteryStatsInfo[]>([]);
 
+  const saveItems = async(updatedItems: BatteryStatsInfo[]) => {
+    // Save the items to storage
+    try {
+      await AsyncStorage.setItem(STORAGE_BATTERY_INFO, JSON.stringify(updatedItems));
+    } catch (error) {
+      console.error("Error saving items", error);
+    }
+  }
+
   const readFileContent = async (filename: string | undefined) => {
     await getBatteryStats(filename)
       .then(batteryInfo => {
-        setItems([...items, batteryInfo]);
+        const updatedItems = [...items, batteryInfo];
+        setItems(updatedItems);
+        saveItems(updatedItems)
       })
       .catch(err => {
         console.log(err);
