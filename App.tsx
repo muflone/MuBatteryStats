@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import AsyncStorageDevTools from 'react-native-async-storage-devtools';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
@@ -27,6 +28,7 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <AppContent />
+      <AsyncStorageDevTools />
     </SafeAreaProvider>
   );
 }
